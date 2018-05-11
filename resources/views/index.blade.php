@@ -7,7 +7,7 @@
         </div>
         <div id="divbutton" style="display: inline-block">
         	<div class="buttonmenu" style="display: inline-block">
-        		<a id="save" href="{{ url('/save') }}" class="glyphicon glyphicon-ok-sign"></a>
+        		<a id="save" class="glyphicon glyphicon-ok-sign" onclick="loadForm()"></a>
 				<span>Save</span>
 			</div>
         	<div class="buttonmenu" style="display: inline-block">
@@ -15,11 +15,11 @@
 				<span>Delete</span>
 			</div>
 			<div class="buttonmenu" style="display: inline-block">
-				<a href="{{ url('/data') }}" class="glyphicon glyphicon-plus-sign"></a>
+				<a onclick="reset()" class="glyphicon glyphicon-plus-sign"></a>
 				<span>Add</span>
 			</div>
 			<div class="buttonmenu" style="display: inline-block">
-				<a href="{{ url('/data') }}" class="glyphicon glyphicon-share-alt"></a>
+				<a href="{{ url('/searchuser') }}" class="glyphicon glyphicon-share-alt"></a>
 				<span>Back</span>
 			</div>
 			{{-- <div class="buttonmenu" style="display: inline-block">
@@ -28,7 +28,19 @@
 			</div> --}}
         </div>
     </div>
-	<form id="myform" action="{{ url('/save') }}" method="get">
+    <div class="col-md-4">
+          @if ($errors->any())
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+        </div>
+	<form id="myform" action="{{ url('/save') }}" method="POST">
+		{{ csrf_field() }}
 		<div class="form-group">
 			<label for="userid">User ID</label>
 			<input type="text" id="userid" name="userid" size="40" onblur="refer()" value="">
@@ -47,12 +59,12 @@
 		</div>
 		<div class="form-group">
 			<label for="birthday">Birth Day</label>
-			<input type="text" id="birthday" name="birthday" value="">
+			<input type="date" id="birthday" name="birthday" value="">
 
 			<label for="gender">Gender</label>
 			<select id="gender" name="gender">
 				@foreach($libs as $lib)
-					<option value="{ $lib->name }}">{{ $lib->name }}</option>
+					<option value="{{ $lib->name }}" id="gend">{{ $lib->name }}</option>
 				@endforeach
 			</select>
 		</div>
@@ -70,7 +82,9 @@
 		</div>
 
 		<div id="avatar">
-			<img id="avatar" src="Image/report-icon.gif">
+			<input type="file" id="fileimg" size="10" onchange="loadimg()" hidden="false">
+			<img src="" alt="avatar" id="imgavatar" hidden="true">
+			{{-- <img id="avatar" src="Image/report-icon.gif"> --}}
 		</div>
 	</form>
 @endsection

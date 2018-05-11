@@ -10,11 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\Input;
 use App\Library;
 Route::get('/welcome', function () {
 	$datas = Library::all();
     return view('welcome')->with('datas', $datas);
 });
 Route::get('/', 'UserController@index');
+// Route::get('/delete', 'UserController@delete');
 Route::post('/save', 'UserController@save');
 Route::get('/search', 'UserController@search');
+Route::get('/searchuser', 'UserController@searchuser');
